@@ -176,13 +176,12 @@ void testServer() {
 
   if (success) {
     // Fill along the length of the strip in various colors...
-    colorWipe(strip.Color(  0, 255,   0), 20); // Green
+    theaterChase(strip.Color(0, 255, 0), 40); // Green, half brightness
   } else {
     // Fill along the length of the strip in various colors...
-    colorWipe(strip.Color(255,   0,   0), 40); // Red
+    theaterChase(strip.Color(255, 0, 0), 40); // Red, half brightness
   }
 
-  theaterChase(strip.Color(127, 127, 127), 20); // White, half brightness
   colorWipe(strip.Color(  0, 0,   0), 20); // Green
 }
 
