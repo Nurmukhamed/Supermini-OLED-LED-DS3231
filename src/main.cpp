@@ -142,6 +142,95 @@ void initWiFi() {
   printOLED(WiFi.localIP().toString());
 }
 
+String DayOfTheWeek(uint8_t Day){
+  String DayText;
+  if (Day==1)  DayText="Monday";
+  if (Day==2)  DayText="Tuesday";
+  if (Day==3)  DayText="Wednesday";
+  if (Day==4)  DayText="Thursday";
+  if (Day==5)  DayText="Friday";
+  if (Day==6)  DayText="Saturday";
+  if (Day==7)  DayText="Sunday";
+  return DayText;
+}
+
+String DayMonthYear(uint8_t Day,uint8_t Month,uint16_t Year){
+  String DayMonthYearText;
+  if (Month==1)  DayMonthYearText="JAN ";
+  if (Month==2)  DayMonthYearText="FEB ";
+  if (Month==3)  DayMonthYearText="MAR ";
+  if (Month==4)  DayMonthYearText="APR ";
+  if (Month==5)  DayMonthYearText="MAY ";
+  if (Month==6)  DayMonthYearText="JUN ";
+  if (Month==7)  DayMonthYearText="JUL ";
+  if (Month==8)  DayMonthYearText="AUG ";
+  if (Month==9)  DayMonthYearText="SEP ";
+  if (Month==10)  DayMonthYearText="OCT ";
+  if (Month==11)  DayMonthYearText="NOV ";
+  if (Month==12)  DayMonthYearText="DEC ";
+
+  DayMonthYearText=DayMonthYearText+Day;
+  if (Day==1)DayMonthYearText=DayMonthYearText+"st ";
+  if (Day==2)DayMonthYearText=DayMonthYearText+"nd ";
+  if (Day>2)DayMonthYearText=DayMonthYearText+"th ";
+
+  DayMonthYearText=DayMonthYearText+Year;
+  
+  return DayMonthYearText;
+}
+
+String AddLeadingZero(uint8_t x){
+  String AddLeadingZeroText;
+  if(x<10) AddLeadingZeroText="0"; 
+  else AddLeadingZeroText=""; 
+  AddLeadingZeroText=AddLeadingZeroText+x;
+  return AddLeadingZeroText;
+}
+
+String CurrentTime(uint8_t H, uint8_t I ){
+  String CurrentTimeText="";
+  CurrentTimeText=CurrentTimeText + AddLeadingZero(H) +":"+AddLeadingZero(I);
+  return CurrentTimeText;
+}
+
+void printDateTimeOnOLED() {
+    DateTime dt = rtc.now();
+
+    display.fillRect(0,0,128,16,SSD1306_WHITE);
+    display.fillRect(0,17,128,16,SSD1306_BLACK);
+    display.fillRect(0,31,128,33,SSD1306_WHITE);
+
+    display.setCursor(1,1); 
+    display.setTextSize(2);
+    display.setTextColor(SSD1306_BLACK); 
+    display.println(DayOfTheWeek(dt.dayOfTheWeek()));
+
+    display.setCursor(1,18); 
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE); 
+    display.println(DayMonthYear(dt.day(),dt.month(),dt.year()));
+
+    display.setCursor(3,35); 
+    display.setTextSize(3);  
+    display.setTextColor(SSD1306_BLACK); 
+    display.println(CurrentTime(dt.hour(),dt.minute()));
+
+    display.setCursor(100,35); 
+    display.setTextSize(2);
+    display.setTextColor(SSD1306_BLACK); 
+    display.println(AddLeadingZero(dt.second()));
+
+    display.setCursor(85,18); 
+    display.setTextSize(1);
+
+    display.setTextColor(SSD1306_WHITE); 
+    display.print(rtc.getTemperature());
+    display.setCursor(117,16); 
+    display.print("o");
+
+    display.display();
+}
+
 void setup() {
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Адрес 0x3C для 128x64 дисплея
     Serial.println(F("SSD1306 allocation failed"));
@@ -191,46 +280,7 @@ void loop() {
   // Clear the OLED display buffer
   display.clearDisplay();
 
-  // Display the date
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 0);
-  display.print("Date: ");
-  display.print(now.year());
-  display.print("-");
-  if (now.month() < 10) display.print("0");
-  display.print(now.month());
-  display.print("-");
-  if (now.day() < 10) display.print("0");
-  display.print(now.day());
-
-  // Display the time
-  display.setCursor(0, 15);
-  display.print("Time: ");
-  if (now.hour() < 10) display.print("0");
-  display.print(now.hour());
-  display.print(":");
-  if (now.minute() < 10) display.print("0");
-  display.print(now.minute());
-  display.print(":");
-  if (now.second() < 10) display.print("0");
-  display.print(now.second());
-
-  // Display the day of the week
-  display.setCursor(0, 30);
-  display.print("Day: ");
-  display.print(daysOfTheWeek[now.dayOfTheWeek()]);
-
-  // Display the temperature from DS3231
-  display.setCursor(0, 45);
-  display.print("Temp: ");
-  display.print(rtc.getTemperature());
-  display.cp437(true);
-  display.write(167);
-  display.print("C");
-
-  // Display everything on the OLED
-  display.display();
+  printDateTimeOnOLED();
 
   if (secondTimer > 60) {
     testServer();
