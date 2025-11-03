@@ -30,6 +30,20 @@ const char* hostname = "esp32-node-temperature";
 const char* frigate_ip = "192.168.1.1";
 ~~~
 
+# Some images.
+
+![Image-01](./img/image01.jpg)
+
+![Image-02](./img/image02.jpg)
+
+![Image-03](./img/image03.jpg)
+
+![Image-04](./img/image04.jpg)
+
+# STL
+
+In stl folder I added stl for project box.
+
 # Links 
 
 [1]: https://aliexpress.ru/item/1005006241069300.html?spm=a2g2w.orderdetail.0.0.48764aa6QgWFs6&sku_id=12000037691944835
