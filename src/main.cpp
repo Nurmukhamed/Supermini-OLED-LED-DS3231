@@ -16,8 +16,6 @@
 #define SCREEN_WIDTH 128 // OLED дисплей Ширина
 #define SCREEN_HEIGHT 64 // OLED дисплей Высота
 
-const char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-
 // Создаем объект RTCLib
 RTC_DS3231 rtc;
 
@@ -144,6 +142,7 @@ void initWiFi() {
 
 String DayOfTheWeek(uint8_t Day){
   String DayText;
+  if (Day==0)  DayText="Sunday";
   if (Day==1)  DayText="Monday";
   if (Day==2)  DayText="Tuesday";
   if (Day==3)  DayText="Wednesday";
