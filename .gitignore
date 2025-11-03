@@ -28,3 +28,4 @@ releases/
 # User-specific configuration files (example for sensitive data)
 credentials.h
 secrets.h
+secrets_*.h
