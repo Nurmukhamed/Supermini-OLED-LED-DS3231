@@ -2,6 +2,17 @@
 
 This is small project aimed to ping (icmp) frigate NVR host on some country side.
 
+# TODO
+
+* Do several checks like icmp check, http response check, mqtt response check;
+* Add wifi status indication on LED Ring;
+* Add http request send and analyze response;
+* Add mqtt request send and analyze response;
+* Add some telegram bot integration;
+* Add some prometheus push gateway integration.
+* LED Ring - may be better solution to light 2 (or 3) led for every check, so I can visually can understand current status.
+
+
 # Parts used
 
 * [ESP32-C3 Supermini][1];
